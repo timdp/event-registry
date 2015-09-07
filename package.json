@@ -1,6 +1,6 @@
 {
   "name": "event-registry",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Keeps track of EventEmitter listeners and automatically removes them upon selected events.",
   "keywords": [
     "eventemitter",
