@@ -28,9 +28,8 @@ export default class EventRegistry {
     if (this._finals.has(emitter, event)) {
       return
     }
-    const listener = () => this._cleanUp()
-    emitter.once(event, listener)
     this._finals.add(emitter, event)
+    this.once(emitter, event, () => this._cleanUp())
   }
 
   onceFin (emitter, event, listener) {
