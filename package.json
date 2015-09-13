@@ -40,7 +40,7 @@
   ],
   "scripts": {
     "clean": "gulp clean",
-    "build": "gulp build",
+    "build": "node --expose-gc node_modules/gulp/bin/gulp build",
     "prepublish": "npm run clean && npm run build",
     "test": "node --expose-gc node_modules/gulp/bin/gulp test"
   },
