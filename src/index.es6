@@ -1,12 +1,12 @@
 'use strict'
 
 import EmitterEventListenerSet from './lib/emitter-event-listener-set'
-import EmitterEventSet from './lib/emitter-event-set'
+import EmitterEventMap from './lib/emitter-event-map'
 
 export default class EventRegistry {
   constructor () {
     this._listeners = new EmitterEventListenerSet()
-    this._finals = new EmitterEventSet()
+    this._finals = new EmitterEventMap()
   }
 
   on (emitter, event, listener) {
@@ -28,13 +28,23 @@ export default class EventRegistry {
     if (this._finals.has(emitter, event)) {
       return
     }
-    this._finals.add(emitter, event)
-    this.once(emitter, event, () => this._cleanUp())
+    const listener = () => this._cleanUp()
+    this._finals.add(emitter, event, listener)
+    this.once(emitter, event, listener)
   }
 
   onceFin (emitter, event, listener) {
     this.once(emitter, event, listener)
     this.fin(emitter, event)
+  }
+
+  unfin (emitter, event) {
+    if (!this._finals.has(emitter, event)) {
+      return
+    }
+    const listener = this._finals.get(emitter, event)
+    this.removeListener(emitter, event, listener)
+    this._finals.remove(emitter, event)
   }
 
   _cleanUp () {

@@ -6,4 +6,4 @@ matrix:
     - node_js: '0.12'
       env: COVERALLS=1
 after_success:
-  - '[[ "$COVERALLS" ]] && gulp coveralls'
+  - '[[ "$COVERALLS" ]] && node --expose-gc node_modules/gulp/bin/gulp coveralls'

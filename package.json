@@ -28,7 +28,10 @@
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.0.1",
     "isparta": "^3.0.3",
-    "mkdirp": "^0.5.0"
+    "mkdirp": "^0.5.0",
+    "sinon": "^1.16.1",
+    "sinon-chai": "^2.8.0",
+    "weak": "^1.0.0"
   },
   "main": "dist/index.js",
   "files": [
@@ -39,7 +42,7 @@
     "clean": "gulp clean",
     "build": "gulp build",
     "prepublish": "npm run clean && npm run build",
-    "test": "gulp test"
+    "test": "node --expose-gc node_modules/gulp/bin/gulp test"
   },
   "repository": "timdp/event-registry",
   "bugs": {

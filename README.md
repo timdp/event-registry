@@ -28,6 +28,9 @@ eventRegistry.on(otherEmitter, 'progress', someProgressListener)
 // Note that this will also remove the progress listener from otherEmitter.
 eventRegistry.fin(emitter, 'end')
 
+// Undo fin. Don't remove any listeners when 'end' is emitted.
+eventRegistry.unfin(emitter, 'end')
+
 // Shorthand for once + fin.
 eventRegistry.onceFin(otherEmitter, 'done', someDoneListener)
 ```
