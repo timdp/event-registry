@@ -3,7 +3,6 @@ matrix:
   include:
     - node_js: '0.10'
     - node_js: '0.12'
-    - node_js: '4.0'
       env: COVERALLS=1
 after_success:
   - '[[ "$COVERALLS" ]] && node --expose-gc node_modules/gulp/bin/gulp coveralls'
