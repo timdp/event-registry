@@ -1,8 +1,18 @@
 language: node_js
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 matrix:
   include:
     - node_js: '0.10'
     - node_js: '0.12'
+    - node_js: iojs
+    - node_js: '4.0'
       env: COVERALLS=1
+before_install:
+  - export CXX=g++-4.8
 after_success:
   - '[[ "$COVERALLS" ]] && node --expose-gc node_modules/gulp/bin/gulp coveralls'
