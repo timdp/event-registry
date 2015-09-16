@@ -27,13 +27,42 @@ eventRegistry.on(otherEmitter, 'progress', someProgressListener)
 // When the 'end' event is emitted, remove all remembered listeners.
 // Note that this will also remove the progress listener from otherEmitter.
 eventRegistry.fin(emitter, 'end')
-
-// Undo fin. Don't remove any listeners when 'end' is emitted.
-eventRegistry.unfin(emitter, 'end')
-
-// Shorthand for once + fin.
-eventRegistry.onceFin(otherEmitter, 'done', someDoneListener)
 ```
+
+## API
+
+### EventEmitter Proxies
+
+An `EventRegistry` proxies the following functions to the `emitter`:
+
+- `addListener(emitter, event, listener)` AKA `on(emitter, event, listener)`
+- `once(emitter, event, listener)`
+- `removeListener(emitter, event, listener)`
+- `removeAllListeners(emitter, [event])`
+
+Additionally, it keeps track of every `listener` passed. When a **final event**
+occurs (see below), it will **remove** all of these listeners.
+
+### Final Events
+
+#### `fin(emitter, event)`
+
+Marks the given `event` on the `emitter` as final. When that event occurs, all
+listeners will be removed.
+
+#### `unfin(emitter, event)`
+
+Undoes a call to `fin`. Marks the `event` on the `emitter` as non-final.
+
+#### `onceFin(emitter, event, listener)`
+
+Shorthand for `once(emitter, event, listener)` followed by `fin(emitter, event)`.
+Saves you a statement in this common scenario.
+
+#### `clear()`
+
+Removes all attached listeners and marks all final events as non-final.
+Basically what happens when a final event is emitted.
 
 ## Author
 

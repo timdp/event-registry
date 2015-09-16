@@ -51,6 +51,16 @@ describe('EventRegistry', () => {
     })
   })
 
+  describe('#addListener()', () => {
+    it('returns itself', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const listener = () => {}
+      const res = reg.addListener(emitter, 'foo', listener)
+      expect(res).to.equal(reg)
+    })
+  })
+
   describe('#once()', () => {
     it('calls the listener exactly once', () => {
       const reg = new EventRegistry()
@@ -106,6 +116,72 @@ describe('EventRegistry', () => {
       const listener = () => {}
       const res = reg.removeListener(emitter, 'foo', listener)
       expect(res).to.equal(reg)
+    })
+  })
+
+  describe('#removeAllListeners()', () => {
+    it('removes all listeners for any event from the emitter', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const listener1 = sinon.spy()
+      const listener2 = sinon.spy()
+      const listener3 = sinon.spy()
+      reg.on(emitter, 'foo', listener1)
+      reg.on(emitter, 'foo', listener2)
+      reg.on(emitter, 'bar', listener3)
+      reg.removeAllListeners(emitter)
+      emitter.emit('foo')
+      emitter.emit('bar')
+      expect(listener1.callCount).to.equal(0)
+      expect(listener2.callCount).to.equal(0)
+      expect(listener3.callCount).to.equal(0)
+    })
+
+    it('removes all listeners for the event from the emitter', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const listener1 = sinon.spy()
+      const listener2 = sinon.spy()
+      const listener3 = sinon.spy()
+      reg.on(emitter, 'foo', listener1)
+      reg.on(emitter, 'foo', listener2)
+      reg.on(emitter, 'bar', listener3)
+      reg.removeAllListeners(emitter, 'bar')
+      emitter.emit('foo')
+      emitter.emit('bar')
+      expect(listener1.callCount).to.equal(1)
+      expect(listener2.callCount).to.equal(1)
+      expect(listener3.callCount).to.equal(0)
+    })
+
+    it('remembers finals when all listeners are removed', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const removedListener = sinon.spy()
+      const calledListener = sinon.spy()
+      reg.onceFin(emitter, 'end', removedListener)
+      reg.removeAllListeners(emitter)
+      reg.onceFin(emitter, 'end', calledListener)
+      emitter.emit('end')
+      expect(removedListener.callCount).to.equal(0)
+      expect(calledListener.callCount).to.equal(1)
+    })
+
+    it('remembers finals when an event is supplied', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const doneListener = sinon.spy()
+      const removedEndListener = sinon.spy()
+      const calledEndListener = sinon.spy()
+      reg.once(emitter, 'done', doneListener)
+      reg.onceFin(emitter, 'end', removedEndListener)
+      reg.removeAllListeners(emitter, 'end')
+      reg.onceFin(emitter, 'end', calledEndListener)
+      emitter.emit('done')
+      emitter.emit('end')
+      expect(doneListener.callCount).to.equal(1)
+      expect(removedEndListener.callCount).to.equal(0)
+      expect(calledEndListener.callCount).to.equal(1)
     })
   })
 
@@ -222,6 +298,14 @@ describe('EventRegistry', () => {
       const emitter = new EventEmitter()
       reg.fin(emitter, 'foo')
       const res = reg.unfin(emitter, 'foo')
+      expect(res).to.equal(reg)
+    })
+  })
+
+  describe('#clear()', () => {
+    it('returns itself', () => {
+      const reg = new EventRegistry()
+      const res = reg.clear()
       expect(res).to.equal(reg)
     })
   })

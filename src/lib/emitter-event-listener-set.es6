@@ -1,55 +1,46 @@
 'use strict'
 
+import EmitterEventMap from './emitter-event-map'
+
 export default class EmitterEventListenerSet {
   constructor () {
-    this._contents = new Map()
+    this._map = new EmitterEventMap()
   }
 
-  has (emitter, event, listener) {
-    return (this._contents.has(emitter) &&
-      this._contents.get(emitter).has(event) &&
-      this._contents.get(emitter).get(event).has(listener))
+  getEmitterEvents (emitter) {
+    return this._map.getEmitterEvents(emitter)
   }
 
-  add (emitter, event, listener) {
-    if (!this._contents.has(emitter)) {
-      this._contents.set(emitter, new Map())
+  addEmitterEventListener (emitter, event, listener) {
+    if (!this._map.hasEmitterEvent(emitter, event)) {
+      this._map.setEmitterEventValue(emitter, event, new Set())
     }
-    const emitterMap = this._contents.get(emitter)
-    if (!emitterMap.has(event)) {
-      emitterMap.set(event, new Set())
-    }
-    emitterMap.get(event).add(listener)
+    const listeners = this._map.getEmitterEventValue(emitter, event)
+    listeners.add(listener)
   }
 
-  remove (emitter, event, listener) {
-    if (!this._contents.has(emitter)) {
+  removeEmitterEventListener (emitter, event, listener) {
+    if (!this._map.hasEmitterEvent(emitter, event)) {
       return
     }
-    const emitterMap = this._contents.get(emitter)
-    if (!emitterMap.has(event)) {
-      return
-    }
-    const listeners = emitterMap.get(event)
+    const listeners = this._map.getEmitterEventValue(emitter, event)
     listeners.delete(listener)
     if (listeners.size === 0) {
-      emitterMap.delete(event)
-      if (emitterMap.size === 0) {
-        this._contents.delete(emitter)
-      }
+      this._map.removeEmitterEventValue(emitter, event)
     }
   }
 
   cleanUp () {
-    for (let [emitter, emitterMap] of this._contents.entries()) {
-      for (let [event, listeners] of emitterMap.entries()) {
+    for (let emitter of this._map.getEmitters()) {
+      for (let event of this._map.getEmitterEvents(emitter)) {
+        const listeners = this._map.getEmitterEventValue(emitter, event)
         for (let listener of listeners) {
           emitter.removeListener(event, listener)
         }
         listeners.clear()
+        this._map.removeEmitterEventValue(emitter, event)
       }
-      emitterMap.clear()
     }
-    this._contents.clear()
+    this._map.cleanUp()
   }
 }

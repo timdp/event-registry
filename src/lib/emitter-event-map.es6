@@ -5,38 +5,50 @@ export default class EmitterEventMap {
     this._contents = new Map()
   }
 
-  has (emitter, event) {
-    return (this._contents.has(emitter) &&
-      this._contents.get(emitter).has(event))
+  getEmitters () {
+    return this._contents.keys()
   }
 
-  get (emitter, event) {
-    return this._contents.has(emitter) ? this._contents.get(emitter).get(event)
+  hasEmitter (emitter) {
+    return this._contents.has(emitter)
+  }
+
+  getEmitterEvents (emitter) {
+    return this._contents.get(emitter).keys()
+  }
+
+  hasEmitterEvent (emitter, event) {
+    return (this.hasEmitter(emitter) && this._contents.get(emitter).has(event))
+  }
+
+  getEmitterEventValue (emitter, event) {
+    return this.hasEmitterEvent(emitter, event)
+      ? this._contents.get(emitter).get(event)
       : null
   }
 
-  add (emitter, event, value) {
-    if (!this._contents.has(emitter)) {
+  setEmitterEventValue (emitter, event, value) {
+    if (!this.hasEmitter(emitter)) {
       this._contents.set(emitter, new Map())
     }
-    const emitterMap = this._contents.get(emitter)
-    emitterMap.set(event, value)
+    const eventToValue = this._contents.get(emitter)
+    eventToValue.set(event, value)
   }
 
-  remove (emitter, event) {
-    if (!this._contents.has(emitter)) {
+  removeEmitterEventValue (emitter, event) {
+    if (!this.hasEmitter(emitter)) {
       return
     }
-    const emitterMap = this._contents.get(emitter)
-    emitterMap.delete(event)
-    if (emitterMap.size === 0) {
-      emitterMap.delete(emitter)
+    const eventToValue = this._contents.get(emitter)
+    eventToValue.delete(event)
+    if (eventToValue.size === 0) {
+      eventToValue.delete(emitter)
     }
   }
 
   cleanUp () {
-    for (let emitterMap of this._contents.values()) {
-      emitterMap.clear()
+    for (let eventToValue of this._contents.values()) {
+      eventToValue.clear()
     }
     this._contents.clear()
   }
