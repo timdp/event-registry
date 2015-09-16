@@ -36,6 +36,14 @@ describe('EventRegistry', () => {
       emitter.emit('baz')
       expect(listener.callCount).to.equal(0)
     })
+
+    it('returns itself', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const listener = () => {}
+      const res = reg.on(emitter, 'foo', listener)
+      expect(res).to.equal(reg)
+    })
   })
 
   describe('#once()', () => {
@@ -48,6 +56,14 @@ describe('EventRegistry', () => {
       emitter.emit('foo')
       emitter.emit('foo')
       expect(listener.callCount).to.equal(1)
+    })
+
+    it('returns itself', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const listener = () => {}
+      const res = reg.once(emitter, 'foo', listener)
+      expect(res).to.equal(reg)
     })
   })
 
@@ -77,6 +93,14 @@ describe('EventRegistry', () => {
       reg.on(emitter, 'foo', listener)
       reg.removeListener(emitter, 'bar', listener)
       expect(reg).to.be.ok
+    })
+
+    it('returns itself', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const listener = () => {}
+      const res = reg.removeListener(emitter, 'foo', listener)
+      expect(res).to.equal(reg)
     })
   })
 
@@ -135,6 +159,13 @@ describe('EventRegistry', () => {
       global.gc()
       expect(collected).to.be.true
     })
+
+    it('returns itself', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const res = reg.fin(emitter, 'foo')
+      expect(res).to.equal(reg)
+    })
   })
 
   describe('#onceFin()', () => {
@@ -152,6 +183,14 @@ describe('EventRegistry', () => {
       emitter.emit('end')
       global.gc()
       expect(collected).to.be.true
+    })
+
+    it('returns itself', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      const listener = () => {}
+      const res = reg.onceFin(emitter, 'foo', listener)
+      expect(res).to.equal(reg)
     })
   })
 
@@ -171,6 +210,14 @@ describe('EventRegistry', () => {
       const emitter = new EventEmitter()
       reg.unfin(emitter, 'foo')
       expect(reg).to.be.ok
+    })
+
+    it('returns itself', () => {
+      const reg = new EventRegistry()
+      const emitter = new EventEmitter()
+      reg.fin(emitter, 'foo')
+      const res = reg.unfin(emitter, 'foo')
+      expect(res).to.equal(reg)
     })
   })
 })
