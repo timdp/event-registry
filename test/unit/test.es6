@@ -7,6 +7,11 @@ import sinon from 'sinon'
 import weak from 'weak'
 import {EventEmitter} from 'events'
 
+if (typeof global.gc !== 'function') {
+  console.error('Tests must be run with the --expose-gc option')
+  process.exit(1)
+}
+
 describe('EventRegistry', () => {
   describe('#new()', () => {
     it('does not throw', () => {
