@@ -43,7 +43,8 @@
     "build": "node --expose-gc node_modules/gulp/bin/gulp build",
     "prepublish": "npm run clean && npm run build",
     "test": "node --expose-gc node_modules/gulp/bin/gulp test",
-    "coverage": "node --expose-gc node_modules/gulp/bin/gulp coverage"
+    "coverage": "node --expose-gc node_modules/gulp/bin/gulp coverage",
+    "dev": "node --expose-gc node_modules/gulp/bin/gulp"
   },
   "repository": "timdp/event-registry",
   "bugs": {
