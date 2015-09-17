@@ -13,10 +13,10 @@ export default class EmitterEventListenerSet {
 
   addEmitterEventListener (emitter, event, listener) {
     if (!this._map.hasEmitterEvent(emitter, event)) {
-      this._map.setEmitterEventValue(emitter, event, new Set())
+      this._map.setEmitterEventValue(emitter, event, [])
     }
     const listeners = this._map.getEmitterEventValue(emitter, event)
-    listeners.add(listener)
+    listeners.push(listener)
   }
 
   removeEmitterEventListener (emitter, event, listener) {
@@ -24,8 +24,12 @@ export default class EmitterEventListenerSet {
       return
     }
     const listeners = this._map.getEmitterEventValue(emitter, event)
-    listeners.delete(listener)
-    if (listeners.size === 0) {
+    const idx = listeners.indexOf(listener)
+    if (idx < 0) {
+      return
+    }
+    listeners.splice(idx, 1)
+    if (listeners.length === 0) {
       this._map.removeEmitterEventValue(emitter, event)
     }
   }
@@ -37,7 +41,7 @@ export default class EmitterEventListenerSet {
         for (let listener of listeners) {
           emitter.removeListener(event, listener)
         }
-        listeners.clear()
+        listeners.length = 0
         this._map.removeEmitterEventValue(emitter, event)
       }
     }
