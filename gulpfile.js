@@ -3,10 +3,8 @@ const plugins = require('gulp-load-plugins')()
 const isparta = require('isparta')
 const del = require('del')
 const mkdirp = require('mkdirp')
-const path = require('path')
 
-const pkg = require('./package.json')
-const dest = path.dirname(pkg.main)
+const dest = 'dist'
 
 const plumb = function () {
   return plugins.plumber({
