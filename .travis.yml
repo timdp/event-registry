@@ -11,6 +11,7 @@ matrix:
     - node_js: '0.12'
     - node_js: iojs
     - node_js: 4
+    - node_js: 5
       env: COVERALLS=1
 before_install:
   - export CXX=g++-4.8
