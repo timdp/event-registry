@@ -194,12 +194,12 @@ describe('EventRegistry', () => {
       let collected2 = false
       ;(() => {
         const listener = () => {}
-        weak(listener, () => collected1 = true)
+        weak(listener, () => { collected1 = true })
         reg.on(emitter1, 'progress', listener)
       })()
       ;(() => {
         const listener = () => {}
-        weak(listener, () => collected2 = true)
+        weak(listener, () => { collected2 = true })
         reg.on(emitter2, 'data', listener)
       })()
       reg.fin(emitter1, 'end')
@@ -227,7 +227,7 @@ describe('EventRegistry', () => {
       let collected = false
       ;(() => {
         const listener = () => {}
-        weak(listener, () => collected = true)
+        weak(listener, () => { collected = true })
         reg.on(emitter1, 'progress', listener)
       })()
       reg.fin(emitter1, 'end')
@@ -256,7 +256,7 @@ describe('EventRegistry', () => {
       let collected = false
       ;(() => {
         const listener = () => {}
-        weak(listener, () => collected = true)
+        weak(listener, () => { collected = true })
         reg.onceFin(emitter, 'end', listener)
       })()
       global.gc()

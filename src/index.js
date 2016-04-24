@@ -35,7 +35,7 @@ export default class EventRegistry {
   removeAllListeners (emitter, event = null) {
     const events = (event != null) ? [event]
       : this._listeners.getEmitterEvents(emitter)
-    const isNotFinal = listener => (listener !== this._finalListener)
+    const isNotFinal = (listener) => (listener !== this._finalListener)
     for (let event of events) {
       const listeners = emitter.listeners(event).filter(isNotFinal)
       for (let listener of listeners) {
