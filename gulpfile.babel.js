@@ -49,7 +49,7 @@ gulp.task('pre-coverage', () => {
 gulp.task('coverage', ['pre-coverage'], () => {
   return test(true)
     .pipe($.istanbul.writeReports())
-    .pipe($.istanbul.enforceThresholds({thresholds: {global: 90}}))
+    .pipe($.istanbul.enforceThresholds({thresholds: {global: 70}}))
 })
 
 gulp.task('coveralls', ['coverage'], () => {
