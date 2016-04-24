@@ -1,9 +1,4 @@
-/* global describe, it, expect */
-
-'use strict'
-
 import EventRegistry from '../../src'
-import sinon from 'sinon'
 import weak from 'weak'
 import {EventEmitter} from 'events'
 
@@ -15,8 +10,9 @@ if (typeof global.gc !== 'function') {
 describe('EventRegistry', () => {
   describe('#new()', () => {
     it('does not throw', () => {
-      const reg = new EventRegistry()
-      expect(reg).to.be.ok
+      expect(() => {
+        new EventRegistry() /* eslint no-new: 0 */
+      }).to.not.throw(Error)
     })
   })
 

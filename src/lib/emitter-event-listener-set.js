@@ -1,5 +1,3 @@
-'use strict'
-
 import EmitterEventMap from './emitter-event-map'
 
 export default class EmitterEventListenerSet {

@@ -24,11 +24,14 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
     "gulp-coveralls": "^0.1.4",
+    "gulp-if": "^2.0.0",
     "gulp-istanbul": "^0.10.3",
     "gulp-load-plugins": "^1.1.0",
     "gulp-mocha": "^2.1.1",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.0.1",
+    "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-standard": "^6.0.5",
     "isparta": "^4.0.0",
     "run-sequence": "^1.1.5",
     "sinon": "^1.16.1",
@@ -42,16 +45,27 @@
     "index.js"
   ],
   "scripts": {
+    "_gulp": "node --expose-gc node_modules/gulp/bin/gulp",
     "clean": "gulp clean",
-    "build": "node --expose-gc node_modules/gulp/bin/gulp build",
+    "build": "npm run _gulp build",
     "prepublish": "npm run clean && npm run build",
-    "test": "node node_modules/standard/bin/cmd.js && node --expose-gc node_modules/gulp/bin/gulp test",
-    "coverage": "node --expose-gc node_modules/gulp/bin/gulp coverage",
-    "dev": "node --expose-gc node_modules/gulp/bin/gulp"
+    "test": "npm run _gulp test"
   },
   "repository": "timdp/event-registry",
   "bugs": {
     "url": "https://github.com/timdp/event-registry/issues"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "standard": {
+    "globals": [
+      "describe",
+      "it",
+      "before",
+      "after",
+      "beforeEach",
+      "afterEach",
+      "expect",
+      "sinon"
+    ]
+  }
 }

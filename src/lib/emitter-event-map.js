@@ -1,5 +1,3 @@
-'use strict'
-
 export default class EmitterEventMap {
   constructor () {
     this._contents = new Map()

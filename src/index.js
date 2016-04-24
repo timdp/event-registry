@@ -1,5 +1,3 @@
-'use strict'
-
 import EmitterEventListenerSet from './lib/emitter-event-listener-set'
 import EmitterEventMap from './lib/emitter-event-map'
 

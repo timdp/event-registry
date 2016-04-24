@@ -1,5 +1,3 @@
-'use strict'
-
 import gulp from 'gulp'
 import loadPlugins from 'gulp-load-plugins'
 import {Instrumenter} from 'isparta'
@@ -12,27 +10,46 @@ const plumb = () => $.plumber({
   errorHandler: $.notify.onError('<%= error.message %>')
 })
 
-const test = () => {
+const test = (strict = false) => {
   return gulp.src(['test/lib/setup.js', 'test/unit/**/*.js'], {read: false})
-    .pipe($.mocha({reporter: 'dot'}))
+    .pipe($.if(!strict, plumb()))
+    .pipe($.mocha({reporter: 'spec'}))
 }
 
 gulp.task('clean', () => del('lib'))
 
-gulp.task('build', ['test'], () => {
+gulp.task('transpile', () => {
   return gulp.src('src/**/*.js')
     .pipe(plumb())
+    .pipe($.sourcemaps.init())
     .pipe($.babel())
+    .pipe($.sourcemaps.write())
     .pipe(gulp.dest('lib'))
 })
 
+gulp.task('lint', () => {
+  return gulp.src('src/**/*.js')
+    .pipe(plumb())
+    .pipe($.standard())
+    .pipe($.standard.reporter('default', {
+      breakOnError: false
+    }))
+})
+
+gulp.task('build', (cb) => seq('lint', 'test', 'transpile', cb))
+
 gulp.task('cleanbuild', (cb) => seq('clean', 'build', cb))
 
-gulp.task('coverage', (cb) => {
-  gulp.src('src/**/*.js')
+gulp.task('pre-coverage', () => {
+  return gulp.src('src/**/*.js')
     .pipe($.istanbul({instrumenter: Instrumenter}))
     .pipe($.istanbul.hookRequire())
-    .on('finish', () => test().pipe($.istanbul.writeReports()).on('end', cb))
+})
+
+gulp.task('coverage', ['pre-coverage'], () => {
+  return test(true)
+    .pipe($.istanbul.writeReports())
+    .pipe($.istanbul.enforceThresholds({thresholds: {global: 90}}))
 })
 
 gulp.task('coveralls', ['coverage'], () => {
