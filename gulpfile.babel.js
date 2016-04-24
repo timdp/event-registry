@@ -6,8 +6,6 @@ import {Instrumenter} from 'isparta'
 import del from 'del'
 import seq from 'run-sequence'
 
-const DEST = 'lib'
-
 const $ = loadPlugins()
 
 const plumb = () => $.plumber({
@@ -19,13 +17,13 @@ const test = () => {
     .pipe($.mocha({reporter: 'dot'}))
 }
 
-gulp.task('clean', () => del(DEST))
+gulp.task('clean', () => del('lib'))
 
 gulp.task('build', ['test'], () => {
   return gulp.src('src/**/*.js')
     .pipe(plumb())
     .pipe($.babel())
-    .pipe(gulp.dest(DEST))
+    .pipe(gulp.dest('lib'))
 })
 
 gulp.task('cleanbuild', (cb) => seq('clean', 'build', cb))
