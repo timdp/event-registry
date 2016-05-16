@@ -10,9 +10,9 @@ const plumb = () => $.plumber({
   errorHandler: $.notify.onError('<%= error.message %>')
 })
 
-const test = (strict = false) => {
+const test = () => {
   return gulp.src(['test/lib/setup.js', 'test/unit/**/*.js'], {read: false})
-    .pipe($.if(!strict, plumb()))
+    .pipe($.if(!process.env.CI, plumb()))
     .pipe($.mocha({reporter: 'spec'}))
 }
 
@@ -36,10 +36,6 @@ gulp.task('lint', () => {
     }))
 })
 
-gulp.task('build', (cb) => seq('lint', 'test', 'transpile', cb))
-
-gulp.task('cleanbuild', (cb) => seq('clean', 'build', cb))
-
 gulp.task('pre-coverage', () => {
   return gulp.src('src/**/*.js')
     .pipe($.istanbul({instrumenter: Instrumenter}))
@@ -47,7 +43,7 @@ gulp.task('pre-coverage', () => {
 })
 
 gulp.task('coverage', ['pre-coverage'], () => {
-  return test(true)
+  return test()
     .pipe($.istanbul.writeReports())
     .pipe($.istanbul.enforceThresholds({thresholds: {global: 70}}))
 })
@@ -58,6 +54,10 @@ gulp.task('coveralls', ['coverage'], () => {
 })
 
 gulp.task('test', test)
+
+gulp.task('build', (cb) => seq('lint', 'coverage', 'transpile', cb))
+
+gulp.task('cleanbuild', (cb) => seq('clean', 'build', cb))
 
 gulp.task('watch', () => gulp.watch('{src,test}/**/*', ['cleanbuild']))
 
