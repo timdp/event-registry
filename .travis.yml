@@ -17,5 +17,3 @@ matrix:
       env: COVERALLS=1
 before_install:
   - export CXX=g++-4.8
-after_success:
-  - '[[ "$COVERALLS" ]] && node --expose-gc node_modules/gulp/bin/gulp coveralls'
