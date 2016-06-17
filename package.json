@@ -48,7 +48,7 @@
     "_gulp": "node --expose-gc node_modules/gulp/bin/gulp",
     "clean": "gulp clean",
     "build": "npm run _gulp build",
-    "prepublish": "npm run clean && npm run build",
+    "prepublish": "npm run build",
     "test": "npm run _gulp test"
   },
   "repository": "timdp/event-registry",
