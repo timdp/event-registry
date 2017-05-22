@@ -35,7 +35,7 @@
     "run-sequence": "^1.1.5",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
-    "weak": "^1.0.0",
+    "weak": "1.0.0",
     "yargs": "^6.4.0"
   },
   "main": "index.js",
