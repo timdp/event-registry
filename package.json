@@ -32,7 +32,7 @@
     "gulp-standard": "^7.0.1",
     "in-publish": "^2.0.0",
     "isparta": "^4.0.0",
-    "run-sequence": "^1.1.5",
+    "run-sequence": "^2.2.1",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0",
     "weak": "^1.0.0",
