@@ -64,7 +64,6 @@ jobs:
             - ~/.cache/yarn
           key: v1-{{ arch }}-node8-dependencies-{{ checksum "yarn.lock" }}
       - <<: *run_tests
-      - <<: *report_coverage
       - <<: *store_test_results
       - <<: *store_artifacts
   node10:
