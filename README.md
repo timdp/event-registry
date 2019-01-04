@@ -1,6 +1,6 @@
 # event-registry
 
-[![npm](https://img.shields.io/npm/v/event-registry.svg)](https://www.npmjs.com/package/event-registry) [![Dependencies](https://img.shields.io/david/timdp/event-registry.svg)](https://david-dm.org/timdp/event-registry) [![Travis Build Status](https://img.shields.io/travis/timdp/event-registry/master.svg?label=travis+build)](https://travis-ci.org/timdp/event-registry) [![AppVeyor Build Status](https://img.shields.io/appveyor/ci/timdp/event-registry/master.svg?label=appveyor+build)](https://ci.appveyor.com/project/timdp/event-registry) [![Coverage Status](https://img.shields.io/coveralls/timdp/event-registry/master.svg)](https://coveralls.io/r/timdp/event-registry) [![JavaScript Standard Style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![npm](https://img.shields.io/npm/v/event-registry.svg)](https://www.npmjs.com/package/event-registry) [![Dependencies](https://img.shields.io/david/timdp/event-registry.svg)](https://david-dm.org/timdp/event-registry) [![Build Status](https://img.shields.io/circleci/project/github/timdp/event-registry/master.svg?label=build)](https://circleci.com/gh/timdp/event-registry) [![Coverage Status](https://img.shields.io/coveralls/timdp/event-registry/master.svg)](https://coveralls.io/r/timdp/event-registry) [![JavaScript Standard Style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](https://standardjs.com/)
 
 Keeps track of EventEmitter listeners and automatically removes them upon
 selected events. Useful when you want to avoid EventEmitter memory leaks caused
@@ -9,7 +9,7 @@ by listeners not being removed.
 ## Usage
 
 ```javascript
-import EventRegistry from 'event-registry'
+const EventRegistry = require('event-registry')
 
 const eventRegistry = new EventRegistry()
 const emitter = getSomeEventEmitter()

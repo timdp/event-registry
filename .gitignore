@@ -1,7 +1,6 @@
-[Tt]humbs.db
+Thumbs.db
 *.DS_Store
 npm-debug.log
-node_modules/
-coverage/
-/lib/
-/event-registry-*.tgz
+yarn-error.log
+/node_modules/
+/.nyc_output/
