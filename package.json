@@ -35,7 +35,7 @@
     "lint-staged": "^8.1.0",
     "nyc": "^13.1.0",
     "prettier-standard": "^8.0.1",
-    "sinon": "^7.2.2",
+    "sinon": "^7.4.1",
     "standard": "^10.0.0",
     "tap-xunit": "^2.3.0",
     "weak": "^1.0.1"
